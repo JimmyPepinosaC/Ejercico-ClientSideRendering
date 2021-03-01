@@ -27,7 +27,7 @@ lecturaJson().then((json) => {
     const td1 = document.createElement("td");
     const td2 = document.createElement("td");
 
-    th.textContent = i+1;
+    th.textContent = i + 1;
     tr.appendChild(th);
 
     let eventos = "";
@@ -61,8 +61,7 @@ lecturaJson().then((json) => {
 
     for (let j = 0; j < objeto.events.length; j++) {
       let evento = objeto.events[j];
-      if(palabrasE.includes(evento) == false)
-      {
+      if (palabrasE.includes(evento) == false) {
         palabrasE.push(evento);
       }
       let eventoSi = evento + 1;
@@ -70,26 +69,23 @@ lecturaJson().then((json) => {
 
       if (objeto.squirrel == true) {
         if (eventos.has(eventoSi)) {
-            eventos.set(eventoSi, eventos.get(eventoSi) + 1);
-          } else {
-            eventos.set(eventoSi, 1);
-          }
-        if(eventos.has(eventoNo) == false)
-        {
-            eventos.set(eventoNo, 0);
+          eventos.set(eventoSi, eventos.get(eventoSi) + 1);
+        } else {
+          eventos.set(eventoSi, 1);
+        }
+        if (eventos.has(eventoNo) == false) {
+          eventos.set(eventoNo, 0);
         }
       } else {
         if (eventos.has(eventoNo)) {
-            eventos.set(eventoNo, eventos.get(eventoNo) + 1);
-          } else {
-            eventos.set(eventoNo, 1);
-          }
-        if(eventos.has(eventoSi) == false)
-        {
-            eventos.set(eventoSi, 0);
+          eventos.set(eventoNo, eventos.get(eventoNo) + 1);
+        } else {
+          eventos.set(eventoNo, 1);
+        }
+        if (eventos.has(eventoSi) == false) {
+          eventos.set(eventoSi, 0);
         }
       }
-      
     }
 
     if (objeto.squirrel == true) {
@@ -99,22 +95,20 @@ lecturaJson().then((json) => {
     }
   }
 
-  for(let i = 0; i < palabrasE.length; i++)
-  {
+  for (let i = 0; i < palabrasE.length; i++) {
     evento = palabrasE[i];
     eventoSi = evento + 1;
     eventoNo = evento + 0;
- 
+
     TP = parseFloat(eventos.get(eventoSi));
     FP = esArdilla - TP;
     FN = parseFloat(eventos.get(eventoNo));
     TN = noEsArdilla - FN;
 
-    let num = (TP*TN) - (FP*FN);
-    let den = Math.sqrt((TP+FP)*(TP+FN)*(TN+FP)*(TN+FN));
-    
-    let MCC= num/den;
-    
+    let num = TP * TN - FP * FN;
+    let den = Math.sqrt((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN));
+
+    let MCC = num / den;
 
     const tr = document.createElement("tr");
     tbody.appendChild(tr);
@@ -123,7 +117,7 @@ lecturaJson().then((json) => {
     const td1 = document.createElement("td");
     const td2 = document.createElement("td");
 
-    th.textContent = i+1;
+    th.textContent = i + 1;
     tr.appendChild(th);
 
     td1.textContent = evento;
@@ -131,44 +125,34 @@ lecturaJson().then((json) => {
 
     td2.textContent = MCC;
     tr.appendChild(td2);
-    
   }
   sort();
 });
 
-
-
-function sort(){
-    let tabla = document.getElementById("tabla2");
-    console.log(tabla);
-    let cambio = true;
-    var filas;
-    var cambiando;
-    var x;
-    var y;
-    var i;
-    var deberiaCambiar;
-    while(cambio)
-    {
-        cambio = false;
-        filas = tabla.rows;
-        console.log(filas.length);
-        for (i = 1; i < (filas.length-1); i++) {
-            deberiaCambiar = false;
-            console.log(filas[i]);
-            x = filas[i].getElementsByTagName("td")[1];
-            y = filas[i+1].getElementsByTagName("td")[1];
-            console.log(x, y);
-            if(Number(x.innerHTML) < Number(y.innerHTML))
-            {
-                deberiaCambiar = true;
-                break;
-            }
-        }
-        if(deberiaCambiar)
-        {
-            filas[i].parentNode.insertBefore(filas[i+1],filas[i]);
-            cambio = true;
-        }
+function sort() {
+  let tabla = document.getElementById("tabla2");
+  let cambio = true;
+  var filas;
+  var cambiando;
+  var x;
+  var y;
+  var i;
+  var deberiaCambiar;
+  while (cambio) {
+    cambio = false;
+    filas = tabla.rows;
+    for (i = 1; i < filas.length - 1; i++) {
+      deberiaCambiar = false;
+      x = filas[i].getElementsByTagName("td")[1];
+      y = filas[i + 1].getElementsByTagName("td")[1];
+      if (Number(x.innerHTML) < Number(y.innerHTML)) {
+        deberiaCambiar = true;
+        break;
+      }
     }
+    if (deberiaCambiar) {
+      filas[i].parentNode.insertBefore(filas[i + 1], filas[i]);
+      cambio = true;
+    }
+  }
 }
